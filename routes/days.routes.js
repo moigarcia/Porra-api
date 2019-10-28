@@ -4,14 +4,14 @@ const secure = require("../middlewares/auth.middleware");
 const dayController = require("../controllers/day.controller");
 const betController = require("../controllers/bet.controller");
 
-router.get("/", dayController.getAll);
-router.get("/:id", dayController.getById);
+router.get("/",  dayController.getAll);
+router.get("/:id",  dayController.getById);
 
-router.post("/", dayController.createDay);
-router.put("/:id", dayController.updateDay);
+router.post("/",  dayController.createDay);
+router.put("/:id",  dayController.updateDay);
 
-router.delete("/:id", dayController.delete);
-router.delete("/", dayController.deleteAll);
+router.delete("/:id",  dayController.delete);
+router.delete("/",  dayController.deleteAll);
 
 /* --------- BETS ROUTES ---------- */
 

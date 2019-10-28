@@ -4,6 +4,7 @@ const User = require("../models/user.model");
 const createError = require("http-errors");
 
 module.exports.getAll = (req, res, next) => {
+  console.log("user ", req.user)
   Day.findById(req.params.id)
     .populate("bets")
     .then(day => res.status(200).json(day.bets))
@@ -24,6 +25,7 @@ module.exports.getById = (req, res, next) => {
 };
 
 module.exports.doBet = (req, res, next) => {
+
   const betData = {
     resultLocalTeam: req.body.resultLocalTeam,
     resultVisitingTeam: req.body.resultVisitingTeam,

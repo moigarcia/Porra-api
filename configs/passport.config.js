@@ -18,11 +18,12 @@ passport.use(new TwitterStrategy({
   consumerKey: process.env.TWITTER_AUTH_CLIENT_ID,
   consumerSecret: process.env.TWITTER_AUTH_CLIENT_SECRET,
   callbackURL: '/auth/twitter/callback'
-}, function authenticateOAuthUser(accessToken, refreshToken, profile, next) {
+}, function authenticateOAuthUser(accessToken, refreshToken, profile, done) {
+  console.log("entra")
    User.findOne( { provider_id: profile.id } )
     .then(user => {
       if (user){
-        next(null, user);
+        done(null, user);
       } else {
         user = new User({
           provider_id: profile.id,
@@ -33,8 +34,9 @@ passport.use(new TwitterStrategy({
         })
         return user.save()
           .then(user => {
-            next(null, user);
-          });
+            done(null, user);
+          })
+          // .catch(error => next(error));
       }
       
     })

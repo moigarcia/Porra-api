@@ -10,7 +10,8 @@ router.get('/delete',sessionsController.delete);
 router.get('/twitter', passport.authenticate('twitter'));
 
 router.get('/twitter/callback', passport.authenticate('twitter',
-  { successRedirect: '/porra', 
-    failureRedirect: '/' }));
+  { successRedirect: '/home', 
+    failureRedirect: '/login' }));
+//router.get('/twitter/callback', passport.authenticate('twitter'))
 
 module.exports = router;

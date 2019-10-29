@@ -19,20 +19,20 @@ const daysRouter = require('./routes/days.routes')
 
 const app = express();
 
-// app.use(function(req, res, next) {
-//   res.setHeader('Access-Control-Allow-Origin', '*' );
-//   res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
-//   res.setHeader('Access-Control-Allow-Headers', "Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With")//'X-Requested-With,content-type');
-//   res.setHeader('Access-Control-Allow-Credentials', true);
-// next();
-// });
-app.use(
-  cors({
-    origin: process.env.URL_APP, // allow to server to accept request from different origin
-    methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
-    credentials: true // allow session cookie from browser to pass through
-  })
-);
+app.use(function(req, res, next) {
+  res.setHeader('Access-Control-Allow-Origin', process.env.URL_APP );
+  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
+  res.setHeader('Access-Control-Allow-Headers', "Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With")//'X-Requested-With,content-type');
+  res.setHeader('Access-Control-Allow-Credentials', true);
+next();
+});
+// app.use(
+//   cors({
+//     origin: process.env.URL_APP, // allow to server to accept request from different origin
+//     methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
+//     credentials: true // allow session cookie from browser to pass through
+//   })
+// );
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');

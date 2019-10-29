@@ -19,13 +19,20 @@ const daysRouter = require('./routes/days.routes')
 
 const app = express();
 
-app.use(function(req, res, next) {
-  res.setHeader('Access-Control-Allow-Origin', '*' );
-  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
-  res.setHeader('Access-Control-Allow-Headers', "Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With")//'X-Requested-With,content-type');
-  res.setHeader('Access-Control-Allow-Credentials', true);
-next();
-});
+// app.use(function(req, res, next) {
+//   res.setHeader('Access-Control-Allow-Origin', '*' );
+//   res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
+//   res.setHeader('Access-Control-Allow-Headers', "Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With")//'X-Requested-With,content-type');
+//   res.setHeader('Access-Control-Allow-Credentials', true);
+// next();
+// });
+var corsOption = {
+  origin: true,
+  methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+  credentials: true,
+  exposedHeaders: ['x-auth-token']
+};
+app.use(cors(corsOption));
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));

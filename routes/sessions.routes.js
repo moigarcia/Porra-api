@@ -10,7 +10,7 @@ router.get('/delete',sessionsController.delete);
 router.get('/twitter', passport.authenticate('twitter'));
 
 router.get('/twitter/redirect', passport.authenticate('twitter',
-  { successRedirect: '/home', 
+  { successRedirect: 'https://porra-litris.herokuapp.com/home', 
     failureRedirect: '/' }));
 //router.get('/twitter/callback', passport.authenticate('twitter'))
 

@@ -19,7 +19,6 @@ passport.use(new TwitterStrategy({
   consumerSecret: process.env.TWITTER_AUTH_CLIENT_SECRET,
   callbackURL:  process.env.URL_APP
 }, function authenticateOAuthUser(accessToken, refreshToken, profile, done) {
-  console.log("entra ")
    User.findOne( { provider_id: profile.id } )
     .then(user => {
       if (user){
@@ -37,7 +36,7 @@ passport.use(new TwitterStrategy({
             console.log("entra ", user)
             done(null, user);
           })
-          // .catch(error => next(error));
+          .catch(error => next(error));
       }
       
     })

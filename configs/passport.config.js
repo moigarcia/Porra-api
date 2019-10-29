@@ -17,7 +17,7 @@ passport.deserializeUser((id, next) => {
 passport.use(new TwitterStrategy({
   consumerKey: process.env.TWITTER_AUTH_CLIENT_ID,
   consumerSecret: process.env.TWITTER_AUTH_CLIENT_SECRET,
-  callbackURL: '/auth/twitter/callback'
+  callbackURL: 'http://127.0.0.1:3000/login/twitter/callback'
 }, function authenticateOAuthUser(accessToken, refreshToken, profile, done) {
   console.log("entra")
    User.findOne( { provider_id: profile.id } )

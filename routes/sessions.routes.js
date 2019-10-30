@@ -11,7 +11,7 @@ router.get('/twitter', passport.authenticate('twitter'));
 
 router.get('/twitter/redirect', passport.authenticate('twitter',
   { successRedirect: 'https://porra-litris.herokuapp.com/home', 
-    failureRedirect: '/' }));
+    failureRedirect: 'https://porra-litris.herokuapp.com' }));
 //router.get('/twitter/callback', passport.authenticate('twitter'))
 
 module.exports = router;

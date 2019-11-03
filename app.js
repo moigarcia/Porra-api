@@ -1,14 +1,12 @@
 require('dotenv').config();
-
+const cookieSession = require("cookie-session");
 const createError = require('http-errors');
 const express = require('express');
 const path = require('path');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
-const session = require('express-session');
-const MongoStore = require("connect-mongo")(session);
+const session = require('./configs/session.config');
 const passport = require('passport');
-const mongoose = require('mongoose');
 const cors = require('cors');
 
 require('./configs/db.config');
@@ -20,20 +18,20 @@ const daysRouter = require('./routes/days.routes')
 
 const app = express();
 
-// app.use(function(req, res, next) {
-//   res.setHeader('Access-Control-Allow-Origin', process.env.URL_APP );
-//   res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
-//   res.setHeader('Access-Control-Allow-Headers', "Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With,content-type");
-//   res.setHeader('Access-Control-Allow-Credentials', true);
-// next();
-// });
 app.use(
   cors({
-    origin: '*', // allow to server to accept request from different origin
+    origin: 'https://porra-litris.herokuapp.com',// allow to server to accept request from different origin
     methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
     credentials: true // allow session cookie from browser to pass through
   })
 );
+
+app.use(session);
+
+app.use(passport.initialize());
+// deserialize cookie from the browser
+app.use(passport.session());
+
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
@@ -41,35 +39,41 @@ app.set('view engine', 'ejs');
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
-app.use(cookieParser());
+
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use(session({
-  secret: 'SuperJacko',
-  resave: true,
-  saveUninitialized: true,
-  cookie: {
-    secure: false,
-    httpOnly: true,
-    maxAge: 60 * 60 * 24 * 1000
-  },
-  store: new MongoStore({
-    mongooseConnection: mongoose.connection,
-    ttl: 24 * 60 * 60
-  })
-}));
-
-app.use(passport.initialize());
-app.use(passport.session())
 
 // app.use((req, res, next) => {
 //   res.locals.session = req.user;
 //   next();
 // })
 
-app.use('/', sessionsRouter);
+app.use('/auth', sessionsRouter);
 app.use('/users', usersRouter);
 app.use('/days', daysRouter);
+
+const authCheck = (req, res, next) => {
+  if (!req.user) {
+    res.status(401).json({
+      authenticated: false,
+      message: "user has not been authenticated"
+    });
+  } else {
+    next();
+  }
+};
+
+// if it's already login, send the profile response,
+// otherwise, send a 401 response that the user is not authenticated
+// authCheck before navigating to home page
+app.get("/", authCheck, (req, res) => {
+  res.status(200).json({
+    authenticated: true,
+    message: "user successfully authenticated",
+    user: req.user,
+    cookies: req.cookies
+  });
+});
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

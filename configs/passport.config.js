@@ -8,13 +8,7 @@ passport.serializeUser((user, done) => {
 
 // deserialize the cookieUserId to user in the database
 passport.deserializeUser((id, done) => {
-  User.findById(id)
-    .then(user => {
-      done(null, user);
-    })
-    .catch(e => {
-      done(new Error("Failed to deserialize an user"));
-    });
+  done(null, user);
 });
 
 passport.use(new TwitterStrategy({

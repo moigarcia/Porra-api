@@ -3,7 +3,7 @@ const passport = require("passport");
 const User = require('../models/user.model')
 
 passport.serializeUser((user, done) => {
-  console.log("serializer ", user._id)
+  console.log("serializer ", user.id)
   done(null, user);
 });
 
@@ -23,7 +23,7 @@ passport.use(new TwitterStrategy({
   consumerSecret: process.env.TWITTER_AUTH_CLIENT_SECRET,
   callbackURL: 'https://porra-api.herokuapp.com/auth/twitter/redirect'
 }, async(token, tokenSecret, profile, done) => {
-   const currentUser = User.findOne( { provider_id: profile.id } )
+   const currentUser = await User.findOne( { provider_id: profile.id } )
       if (!currentUser){
         console.log("entra newUser")
        const newUser = user = new User({
@@ -38,7 +38,7 @@ passport.use(new TwitterStrategy({
           done(null, newUser);
         }
       }
-      console.log("currentUser")
+      console.log("currentUser ", currentUser)
       done(null, currentUser);
     }
 ));

@@ -51,6 +51,7 @@ app.use('/users', usersRouter);
 app.use('/days', daysRouter);
 
 const authCheck = (req, res, next) => {
+  console.log("app authcheck", req.user)
   if (!req.user) {
     res.status(401).json({
       authenticated: false,

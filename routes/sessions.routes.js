@@ -1,16 +1,7 @@
 const passport = require("passport");
 const express = require("express");
 const router = express.Router();
-const sessionsController = require("../controllers/sessions.controller");
 const authMiddleware = require("../middlewares/auth.middleware");
-const CLIENT_HOME_PAGE_URL = "https://porra-litris.herokuapp.com";
-
-router.get(
-  "/create",
-  authMiddleware.isNotAuthenticated,
-  sessionsController.create
-);
-router.get("/delete", sessionsController.delete);
 
 router.get("/twitter", passport.authenticate("twitter"));
 

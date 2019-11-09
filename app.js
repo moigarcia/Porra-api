@@ -33,13 +33,6 @@ app.use(passport.initialize());
 // deserialize cookie from the browser
 app.use(passport.session());
 
-app.get('/*', function(req, res, next) {
-  if (req.headers.host.match(/^www\./) != null) {
-    res.redirect("http://" + req.headers.host.slice(4) + req.url, 301);
-  } else {
-    next();
-  }
-});
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');

@@ -3,6 +3,7 @@ const MongoStore = require('connect-mongo')(session);
 const mongoose = require('mongoose');
 
 module.exports = session({
+  name: "session",
   secret: 'deestavidasacarasloquemetasnadamas',
   resave: false,
   saveUninitialized: true,

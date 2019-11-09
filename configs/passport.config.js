@@ -20,7 +20,7 @@ passport.deserializeUser((id, done) => {
 passport.use(new TwitterStrategy({
   consumerKey: process.env.TWITTER_AUTH_CLIENT_ID,
   consumerSecret: process.env.TWITTER_AUTH_CLIENT_SECRET,
-  callbackURL: 'https://porra-api.herokuapp.com/auth/twitter/redirect'
+  callbackURL: process.env.TWITTER_AUTH_CALLBACK
 }, async(token, tokenSecret, profile, next) => {
    const currentUser = await User.findOne( { provider_id: profile.id } )
       if (!currentUser){

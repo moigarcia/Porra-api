@@ -3,7 +3,6 @@ const passport = require("passport");
 const User = require('../models/user.model')
 
 passport.serializeUser((user, done) => {
-  console.log("serializer ", user.id)
   done(null, user);
 });
 
@@ -34,7 +33,7 @@ passport.use(new TwitterStrategy({
           photo: profile.photos[0].value
         }).save()
         if(newUser){
-          console.log("newUser done ")
+          console.log("newUser done ", newUser)
           done(null, newUser);
         }
       }

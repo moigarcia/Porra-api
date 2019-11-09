@@ -17,7 +17,7 @@ router.get("/twitter", passport.authenticate("twitter"));
 router.get(
   "/twitter/redirect",
   passport.authenticate("twitter", {
-    successRedirect: CLIENT_HOME_PAGE_URL,
+    successRedirect: '/home',
     failureRedirect: "auth/login/failed"
   })
 );

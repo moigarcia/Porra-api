@@ -19,6 +19,19 @@ const daysRouter = require('./routes/days.routes')
 
 const app = express();
 
+
+app.use(cookieSession({
+  name: 'session',
+  keys: "deestavidasacarasloquemetasnadamas",
+  maxAge: 24 * 60 * 60 * 1000 // session will expire after 24 hours
+}))
+
+app.use(cookieParser());
+
+app.use(passport.initialize());
+// deserialize cookie from the browser
+app.use(passport.session());
+
 app.use(
   cors({
     origin: 'https://porra-litris.herokuapp.com',// allow to server to accept request from different origin
@@ -26,13 +39,6 @@ app.use(
     credentials: true // allow session cookie from browser to pass through
   })
 );
-
-app.use(session);
-
-app.use(passport.initialize());
-// deserialize cookie from the browser
-app.use(passport.session());
-
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');

@@ -20,7 +20,7 @@ passport.deserializeUser((id, done) => {
 passport.use(new TwitterStrategy({
   consumerKey: process.env.TWITTER_AUTH_CLIENT_ID,
   consumerSecret: process.env.TWITTER_AUTH_CLIENT_SECRET,
-  callbackURL: '/auth/twitter/redirect'
+  callbackURL: '/twitter/redirect'
 }, async(token, tokenSecret, profile, done) => {
    const currentUser = User.findOne( { provider_id: profile.id } )
    console.log("entra")

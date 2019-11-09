@@ -1,4 +1,5 @@
 require('dotenv').config();
+
 const cookieSession = require("cookie-session");
 const createError = require('http-errors');
 const express = require('express');
@@ -20,7 +21,7 @@ const app = express();
 
 app.use(
   cors({
-    origin: 'https://porra-litris.herokuapp.com',// allow to server to accept request from different origin
+    origin: '*',// allow to server to accept request from different origin
     methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
     credentials: true // allow session cookie from browser to pass through
   })
@@ -42,11 +43,6 @@ app.use(express.urlencoded({ extended: false }));
 
 app.use(express.static(path.join(__dirname, 'public')));
 
-
-// app.use((req, res, next) => {
-//   res.locals.session = req.user;
-//   next();
-// })
 
 app.use('/auth', sessionsRouter);
 app.use('/users', usersRouter);

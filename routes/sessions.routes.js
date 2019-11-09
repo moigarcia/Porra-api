@@ -3,7 +3,7 @@ const express = require("express");
 const router = express.Router();
 const sessionsController = require("../controllers/sessions.controller");
 const authMiddleware = require("../middlewares/auth.middleware");
-const CLIENT_HOME_PAGE_URL = "https://porra-litris.herokuapp.com/";
+const CLIENT_HOME_PAGE_URL = "https://porra-litris.herokuapp.com/home";
 
 router.get(
   "/create",
@@ -17,7 +17,7 @@ router.get("/twitter", passport.authenticate("twitter"));
 router.get(
   "/twitter/redirect",
   passport.authenticate("twitter", {
-    successRedirect: '/home',
+    successRedirect: CLIENT_HOME_PAGE_URL,
     failureRedirect: "auth/login/failed"
   })
 );

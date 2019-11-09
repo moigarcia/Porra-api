@@ -28,13 +28,20 @@ app.use(passport.initialize());
 // deserialize cookie from the browser
 app.use(passport.session());
 
-app.use(
-  cors({
-    origin: 'https://porra-litris.herokuapp.com',// allow to server to accept request from different origin
-    methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
-    credentials: true // allow session cookie from browser to pass through
-  })
-);
+// app.use(
+//   cors({
+//     origin: '*',// allow to server to accept request from different origin
+//     methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
+//     credentials: true // allow session cookie from browser to pass through
+//   })
+// );
+app.use(function(req, res, next) {
+  res.setHeader('Access-Control-Allow-Origin', process.env.URL_APP);
+  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
+  res.setHeader('Access-Control-Allow-Headers', "Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With")
+  res.setHeader('Access-Control-Allow-Credentials', true);
+next();
+});
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');

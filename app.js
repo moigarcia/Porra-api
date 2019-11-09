@@ -20,11 +20,7 @@ const daysRouter = require('./routes/days.routes')
 const app = express();
 
 
-app.use(cookieSession({
-  name: 'session',
-  keys: "deestavidasacarasloquemetasnadamas",
-  maxAge: 24 * 60 * 60 * 1000 // session will expire after 24 hours
-}))
+app.use(session)
 
 app.use(cookieParser());
 

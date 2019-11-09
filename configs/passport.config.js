@@ -7,7 +7,7 @@ passport.serializeUser((user, done) => {
 });
 
 // deserialize the cookieUserId to user in the database
-passport.deserializeUser((id, done) => {
+passport.deserializeUser((user, done) => {
   done(null, user);
 });
 

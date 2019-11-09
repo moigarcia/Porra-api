@@ -4,7 +4,7 @@ const User = require('../models/user.model')
 
 passport.serializeUser((user, done) => {
   console.log("serializer ", user)
-  done(null, user.id);
+  done(null, user._id);
 });
 
 // deserialize the cookieUserId to user in the database

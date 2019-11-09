@@ -21,7 +21,7 @@ passport.use(new TwitterStrategy({
   consumerKey: process.env.TWITTER_AUTH_CLIENT_ID,
   consumerSecret: process.env.TWITTER_AUTH_CLIENT_SECRET,
   callbackURL: 'https://porra-api.herokuapp.com/auth/twitter/redirect'
-}, async(token, tokenSecret, profile, done) => {
+}, async(token, tokenSecret, profile, next) => {
    const currentUser = await User.findOne( { provider_id: profile.id } )
       if (!currentUser){
         console.log("entra newUser")
@@ -34,10 +34,10 @@ passport.use(new TwitterStrategy({
         }).save()
         if(newUser){
           console.log("newUser done ", newUser)
-          done(null, newUser);
+          next(null, newUser);
         }
       }
       console.log("currentUser ", currentUser)
-      done(null, currentUser);
+      next(null, currentUser);
     }
 ));

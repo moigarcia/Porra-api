@@ -8,7 +8,7 @@ router.get("/twitter", passport.authenticate("twitter"));
 router.get(
   "/twitter/redirect",
   passport.authenticate("twitter", {
-    successRedirect: process.env.URL_APP,
+    successRedirect: process.env.URL_APP_DEV,
     failureRedirect: "auth/login/failed"
   })
 );
@@ -32,6 +32,6 @@ router.get("/login/failed", (req, res) => {
 // When logout, redirect to client
 router.get("/logout", (req, res) => {
   req.logout();
-  res.redirect(CLIENT_HOME_PAGE_URL);
+  res.redirect(process.env.URL_APP_DEV);
 });
 module.exports = router;

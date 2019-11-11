@@ -6,7 +6,6 @@ module.exports.getAll = (req, res, next) => {
   Day.find()
     .populate("bets")
     .then(days => {
-      console.log(days);
       res.status(200).json(days);
     })
     .catch(error => next(error));

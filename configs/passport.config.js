@@ -14,24 +14,25 @@ passport.deserializeUser((user, done) => {
 passport.use(new TwitterStrategy({
   consumerKey: process.env.TWITTER_AUTH_CLIENT_ID,
   consumerSecret: process.env.TWITTER_AUTH_CLIENT_SECRET,
-  callbackURL: process.env.TWITTER_AUTH_CALLBACK
+  callbackURL: process.env.TWITTER_AUTH_CALLBACK_DEV
 }, async(token, tokenSecret, profile, next) => {
-   const currentUser = await User.findOne( { provider_id: profile.id } )
-      if (!currentUser){
-        console.log("entra newUser")
-       const newUser = user = new User({
-          provider_id: profile.id,
-          provider: profile.provider,
-          name: profile.displayName,
-          userTwitter: profile.username,
-          photo: profile.photos[0].value
-        }).save()
-        if(newUser){
-          console.log("newUser done ", newUser)
-          next(null, newUser);
-        }
-      }
-      console.log("currentUser ", currentUser)
-      next(null, currentUser);
-    }
+  try {
+    const currentUser = await User.findOne( { provider_id: profile.id } )
+       if (!currentUser){
+         console.log("entra newUser")
+        const newUser = await new User({
+           provider_id: profile.id,
+           provider: profile.provider,
+           name: profile.displayName,
+           userTwitter: profile.username,
+           photo: profile.photos[0].value,
+           role: profile.username === 'elmoigarcia' ? 'admin' : 'guest'
+         }).save()
+         
+           next(null, newUser);
+       }
+       next(null, currentUser);
+     } catch(error) {
+      next(error)
+  }}
 ));

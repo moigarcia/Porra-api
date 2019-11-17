@@ -17,6 +17,7 @@ router.delete("/",  dayController.deleteAll);
 
 router.get("/:id/bets", betController.getAll);
 router.get("/:id/bets/:id", betController.getById);
+router.post("/:id/bets/user", betController.getByUserId);
 
 router.post("/:id/bets", betController.doBet);
 router.post("/:id/bets/check", betController.checkBets);

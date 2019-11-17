@@ -32,6 +32,6 @@ router.get("/login/failed", (req, res) => {
 // When logout, redirect to client
 router.get("/logout", (req, res) => {
   req.logout();
-  res.redirect(process.env.URL_APP_DEV);
+  //res.redirect(process.env.URL_APP_DEV);
 });
 module.exports = router;

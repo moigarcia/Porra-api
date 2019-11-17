@@ -23,6 +23,20 @@ module.exports.getById = (req, res, next) => {
     })
     .catch(error => next(error));
 };
+module.exports.getByUserId = (req, res, next) => {
+  console.log("body ", req.body)
+  Day.findById(req.params.id)
+    .populate("bets")
+    .then(day => {
+      if (!day) {
+        throw createError(404, "Day not found");
+      }else if(day.bets.some(n => n.user == req.body.userId)) {
+        console.log(day.bets.filter(n => n.user == req.body.userId))
+          res.status(200).json(day.bets.filter(n => n.user == req.body.userId))
+      } 
+    })
+    .catch(error => next(error));
+};
 
 module.exports.doBet = (req, res, next) => {
 
@@ -39,14 +53,14 @@ module.exports.doBet = (req, res, next) => {
     .then(day => {
       if (day.stateDay !== "open") {
         throw createError(
-          404,
+          401,
           "El partido está cerrado, no se permite más resultados."
         );
       } else if (day.bets.some(n => n.user == req.body.userId)) {
-        throw createError(
-          404,
+        next(createError(
+          406,
           "No puedes añadir más resultados, ya has hecho tu apuesta"
-        );
+        ));
       } else {
         const bet = new Bet(betData);
         bet
@@ -130,7 +144,7 @@ module.exports.checkBets = (req, res, next) => {
           return res.status(200).json(results);
         });
       } else {
-        throw createError(404, "Esta jornada está cerrada y checkeada");
+        throw createError(406, "Esta jornada está cerrada y checkeada");
       }
     })
     .catch(error => next(error));

@@ -28,7 +28,6 @@ passport.use(new TwitterStrategy({
            photo: profile.photos[0].value,
            role: profile.username === 'elmoigarcia' ? 'admin' : 'guest'
          }).save()
-         
            next(null, newUser);
        }
        next(null, currentUser);

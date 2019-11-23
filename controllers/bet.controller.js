@@ -75,7 +75,7 @@ module.exports.doBet = (req, res, next) => {
 };
 
 module.exports.checkBets = (req, res, next) => {
-  Day.findByIdAndUpdate(req.params.id, {$set: { stateDay: "closed"}}, { new: true })
+  Day.findById(req.params.id)
     .populate("bets")
     .then(day => {
       if (day.stateDay !== "closed") {
@@ -84,6 +84,7 @@ module.exports.checkBets = (req, res, next) => {
           resultVisitingTeam: day.resultVisitingTeam,
           scorers: day.scorers
         };
+        
 
         const betsDay = day.bets;
 
@@ -132,10 +133,12 @@ module.exports.checkBets = (req, res, next) => {
           });
         });
 
+        day.stateDay = "closed"
+        day.save()
+
         return Promise.all(promises).then(results => {
           results.map(n => {
             User.findById(n.user).then(user => {
-              console.log(user);
               const total = user.points + n.points;
               user.set("points", total);
               user.save().then(console.log("actualizada clasificacion"));
@@ -143,6 +146,7 @@ module.exports.checkBets = (req, res, next) => {
           });
           return res.status(200).json(results);
         });
+        
       } else {
         throw createError(406, "Esta jornada está cerrada y checkeada");
       }

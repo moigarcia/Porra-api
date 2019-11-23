@@ -17,7 +17,16 @@ router.get(
 router.get("/login/success", (req, res) => {
   console.log("login success ",req.user)
   if (req.user) {
-    res.status(200).json(req.user)
+    const user = {
+      id: req.user.id,
+      provider: req.user.provider,
+      name: req.user.name,
+      userTwitter: req.user.userTwitter,
+      photo: req.user.photo,
+      role: req.user.role,
+      points: req.user.points
+    }
+    res.status(200).json(user)
   } 
 });
 

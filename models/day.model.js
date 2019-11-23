@@ -12,6 +12,12 @@ const DaySchema = new mongoose.Schema(
       type: String
       //enum: teams.map(team => team.name)
     },
+    shieldLocal: {
+      type: String
+    },
+    shieldVisiting: {
+      type: String
+    },
     resultLocalTeam: {
       type: Number,
       min: 0,

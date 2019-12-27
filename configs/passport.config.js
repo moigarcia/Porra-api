@@ -17,7 +17,7 @@ passport.deserializeUser((user, done) => {
 passport.use(new TwitterStrategy({
   consumerKey: process.env.TWITTER_AUTH_CLIENT_ID,
   consumerSecret: process.env.TWITTER_AUTH_CLIENT_SECRET,
-  callbackURL: process.env.TWITTER_AUTH_CALLBACK_DEV,
+  callbackURL: process.env.TWITTER_AUTH_CALLBACK,
   includeEmail: true,
 }, async(token, tokenSecret, profile, next) => {
   try {

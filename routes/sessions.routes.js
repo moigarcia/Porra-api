@@ -1,7 +1,6 @@
 const passport = require("passport");
 const express = require("express");
 const router = express.Router();
-const authMiddleware = require("../middlewares/auth.middleware");
 
 router.get("/twitter", passport.authenticate("twitter"));
 
@@ -13,9 +12,7 @@ router.get(
   })
 );
 
-
 router.get("/login/success", (req, res) => {
-  console.log("login success ",req.user)
   if (req.user) {
     const user = {
       id: req.user.id,
@@ -25,12 +22,12 @@ router.get("/login/success", (req, res) => {
       photo: req.user.photo,
       role: req.user.role,
       points: req.user.points
-    }
-    res.status(200).json(user)
-  } 
+    };
+
+    req.session.save(() => res.status(200).json(user));
+  }
 });
 
-// when login failed, send failed msg
 router.get("/login/failed", (req, res) => {
   res.status(401).json({
     success: false,
@@ -38,9 +35,10 @@ router.get("/login/failed", (req, res) => {
   });
 });
 
-// When logout, redirect to client
-router.get("/logout", (req, res) => {
+router.post("/logout", (req, res) => {
   req.logout();
-  //res.redirect(process.env.URL_APP_DEV);
+  res.status(200).json({
+    message: "user logout."
+  });
 });
 module.exports = router;

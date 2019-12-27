@@ -14,7 +14,6 @@ module.exports.getById = (req, res, next) => {
       if (!user) {
         throw createError(404, 'user not found');
       } else {
-        console.log(user)
         res.status(200).json(user);
       }
     })

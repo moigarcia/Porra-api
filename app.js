@@ -1,12 +1,15 @@
 require('dotenv').config();
 
-const cookieSession = require("cookie-session");
 const createError = require('http-errors');
 const express = require('express');
 const path = require('path');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
-const session = require('./configs/session.config');
+const session = require('express-session');
+
+const MongoStore = require('connect-mongo')(session);
+const mongoose = require('mongoose');
+
 const passport = require('passport');
 const cors = require('cors');
 
@@ -19,13 +22,29 @@ const daysRouter = require('./routes/days.routes')
 
 const app = express();
 
+app.use(logger('dev'));
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+app.use(cookieParser('SuperArgo'));
+app.use(express.static(path.join(__dirname, 'public')));
+app.enable('trust proxy'); 
 
-app.use(session)
-
-app.use(cookieParser());
+app.use(session({
+  secret: 'SuperArgo',
+  resave: true,
+  saveUninitialized: true,
+  proxy: true, 
+  cookie: {
+    secure: "auto",
+    maxAge: 60 * 60 * 24 * 1000
+  },
+  store: new MongoStore({
+    mongooseConnection: mongoose.connection,
+    ttl: 24 * 60 * 60
+  })
+}));
 
 app.use(passport.initialize());
-// deserialize cookie from the browser
 app.use(passport.session());
 
 app.use(
@@ -40,40 +59,33 @@ app.use(
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 
-app.use(logger('dev'));
-app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
-
-app.use(express.static(path.join(__dirname, 'public')));
-
 
 app.use('/auth', sessionsRouter);
 app.use('/users', usersRouter);
 app.use('/days', daysRouter);
 
-const authCheck = (req, res, next) => {
-  console.log("app authcheck", req.user)
-  if (!req.user) {
-    res.status(401).json({
-      authenticated: false,
-      message: "user has not been authenticated"
-    });
-  } else {
-    next();
-  }
-};
+// const authCheck = (req, res, next) => {
+//   if (!req.user) {
+//     res.status(401).json({
+//       authenticated: false,
+//       message: "user has not been authenticated"
+//     });
+//   } else {
+//     next();
+//   }
+// };
 
-// if it's already login, send the profile response,
-// otherwise, send a 401 response that the user is not authenticated
-// authCheck before navigating to home page
-app.get("/", authCheck, (req, res) => {
-  res.status(200).json({
-    authenticated: true,
-    message: "user successfully authenticated",
-    user: req.user,
-    cookies: req.cookies
-  });
-});
+// // if it's already login, send the profile response,
+// // otherwise, send a 401 response that the user is not authenticated
+// // authCheck before navigating to home page
+// app.get("/", authCheck, (req, res) => {
+//   res.status(200).json({
+//     authenticated: true,
+//     message: "user successfully authenticated",
+//     user: req.user,
+//     cookies: req.cookies
+//   });
+// });
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

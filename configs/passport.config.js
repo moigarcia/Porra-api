@@ -8,18 +8,22 @@ passport.serializeUser((user, done) => {
 
 // deserialize the cookieUserId to user in the database
 passport.deserializeUser((user, done) => {
-  done(null, user);
+  User.findById(user.id, function(err, user){
+    // console.log("des ", user)
+    done(err, user);
+   })
 });
 
 passport.use(new TwitterStrategy({
   consumerKey: process.env.TWITTER_AUTH_CLIENT_ID,
   consumerSecret: process.env.TWITTER_AUTH_CLIENT_SECRET,
-  callbackURL: process.env.TWITTER_AUTH_CALLBACK_DEV
+  callbackURL: process.env.TWITTER_AUTH_CALLBACK_DEV,
+  includeEmail: true,
 }, async(token, tokenSecret, profile, next) => {
   try {
+
     const currentUser = await User.findOne( { provider_id: profile.id } )
        if (!currentUser){
-         console.log("entra newUser")
         const newUser = await new User({
            provider_id: profile.id,
            provider: profile.provider,
@@ -28,10 +32,13 @@ passport.use(new TwitterStrategy({
            photo: profile.photos[0].value,
            role: profile.username === 'elmoigarcia' ? 'admin' : 'guest'
          }).save()
-           next(null, newUser);
+         
+        return await next(null, newUser)
+       } else {
+        return await next(null, currentUser)
        }
-       next(null, currentUser);
      } catch(error) {
+       console.log("error ", error)
       next(error)
   }}
 ));

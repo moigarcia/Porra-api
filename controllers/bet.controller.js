@@ -4,7 +4,7 @@ const User = require("../models/user.model");
 const createError = require("http-errors");
 
 module.exports.getAll = (req, res, next) => {
-  console.log("user ", req.user)
+  
   Day.findById(req.params.id)
     .populate("bets")
     .then(day => res.status(200).json(day.bets))
@@ -17,21 +17,20 @@ module.exports.getById = (req, res, next) => {
       if (!bet) {
         throw createError(404, "bet not found");
       } else {
-        console.log(bet);
+    
         res.status(200).json(bet);
       }
     })
     .catch(error => next(error));
 };
 module.exports.getByUserId = (req, res, next) => {
-  console.log("body ", req.body)
+
   Day.findById(req.params.id)
     .populate("bets")
     .then(day => {
       if (!day) {
         throw createError(404, "Day not found");
       }else if(day.bets.some(n => n.user == req.body.userId)) {
-        console.log(day.bets.filter(n => n.user == req.body.userId))
           res.status(200).json(day.bets.filter(n => n.user == req.body.userId))
       } 
     })

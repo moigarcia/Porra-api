@@ -18,7 +18,7 @@ module.exports.getById = (req, res, next) => {
       if (!day) {
         throw createError(404, "day not found");
       } else {
-        console.log(day);
+        
         res.status(200).json(day);
       }
     })

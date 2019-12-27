@@ -4,25 +4,25 @@ const secure = require("../middlewares/auth.middleware");
 const dayController = require("../controllers/day.controller");
 const betController = require("../controllers/bet.controller");
 
-router.get("/",  dayController.getAll);
-router.get("/:id",  dayController.getById);
+router.get("/", secure.isAuthenticated, secure.checkRole('admin'), dayController.getAll);
+router.get("/:id", secure.isAuthenticated, dayController.getById);
 
-router.post("/",  dayController.createDay);
-router.put("/:id",  dayController.updateDay);
+router.post("/", secure.isAuthenticated, secure.checkRole('admin'), dayController.createDay);
+router.put("/:id", secure.isAuthenticated, dayController.updateDay);
 
-router.delete("/:id",  dayController.delete);
-router.delete("/",  dayController.deleteAll);
+router.delete("/:id", secure.isAuthenticated, dayController.delete);
+router.delete("/", secure.isAuthenticated, dayController.deleteAll);
 
 /* --------- BETS ROUTES ---------- */
 
-router.get("/:id/bets", betController.getAll);
-router.get("/:id/bets/:id", betController.getById);
-router.post("/:id/bets/user", betController.getByUserId);
+router.get("/:id/bets",secure.isAuthenticated, betController.getAll);
+router.get("/:id/bets/:id",secure.isAuthenticated, betController.getById);
+router.post("/:id/bets/user",secure.isAuthenticated, betController.getByUserId);
 
-router.post("/:id/bets", betController.doBet);
-router.post("/:id/bets/check", betController.checkBets);
+router.post("/:id/bets",secure.isAuthenticated, betController.doBet);
+router.post("/:id/bets/check",secure.isAuthenticated, betController.checkBets);
 
-router.delete("/:id/bets/:id", betController.delete);
-router.delete("/:id/bets/", betController.deleteAll);
+router.delete("/:id/bets/:id",secure.isAuthenticated, betController.delete);
+router.delete("/:id/bets/", secure.isAuthenticated, betController.deleteAll);
 
 module.exports = router;

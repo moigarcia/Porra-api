@@ -7,7 +7,7 @@ router.get("/twitter", passport.authenticate("twitter"));
 router.get(
   "/twitter/redirect",
   passport.authenticate("twitter", {
-    successRedirect: process.env.URL_APP,
+    successRedirect: "https://porra-litris.herokuapp.com",
     failureRedirect: "auth/login/failed"
   })
 );

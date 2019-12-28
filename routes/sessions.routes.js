@@ -7,7 +7,7 @@ router.get("/twitter", passport.authenticate("twitter"));
 router.get(
   "/twitter/redirect",
   passport.authenticate("twitter", {
-    successRedirect: process.env.URL_APP,
+    successRedirect: process.env.URL_APP_DEV,
     failureRedirect: "auth/login/failed"
   })
 );

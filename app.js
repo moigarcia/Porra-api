@@ -49,7 +49,7 @@ app.use(passport.session());
 
 app.use(
   cors({
-    origin: process.env.URL_APP,// allow to server to accept request from different origin
+    origin: process.env.URL_APP_DEV,// allow to server to accept request from different origin
     methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
     credentials: true // allow session cookie from browser to pass through
   })
@@ -63,29 +63,6 @@ app.set('view engine', 'ejs');
 app.use('/auth', sessionsRouter);
 app.use('/users', usersRouter);
 app.use('/days', daysRouter);
-
-// const authCheck = (req, res, next) => {
-//   if (!req.user) {
-//     res.status(401).json({
-//       authenticated: false,
-//       message: "user has not been authenticated"
-//     });
-//   } else {
-//     next();
-//   }
-// };
-
-// // if it's already login, send the profile response,
-// // otherwise, send a 401 response that the user is not authenticated
-// // authCheck before navigating to home page
-// app.get("/", authCheck, (req, res) => {
-//   res.status(200).json({
-//     authenticated: true,
-//     message: "user successfully authenticated",
-//     user: req.user,
-//     cookies: req.cookies
-//   });
-// });
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

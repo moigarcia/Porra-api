@@ -33,7 +33,7 @@ app.use(session({
   secret: 'SuperArgo',
   resave: true,
   saveUninitialized: true,
-  proxy: true, 
+  // proxy: true, 
   cookie: {
     secure: "auto",
     maxAge: 60 * 60 * 24 * 1000

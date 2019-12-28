@@ -9,17 +9,17 @@ passport.serializeUser((user, done) => {
 // deserialize the cookieUserId to user in the database
 passport.deserializeUser((user, done) => {
   // User.findById(user.id, function(err, user){
-    // console.log("des ", user)
-    // done(err, user);
+  //   // console.log("des ", user)
+  //   done(err, user);
   //  })
-  done(null, user)
+  done(null, user);
 });
 
 passport.use(new TwitterStrategy({
   consumerKey: process.env.TWITTER_AUTH_CLIENT_ID,
   consumerSecret: process.env.TWITTER_AUTH_CLIENT_SECRET,
   callbackURL: process.env.TWITTER_AUTH_CALLBACK,
-  includeEmail: true,
+  // includeEmail: true,
 }, async(token, tokenSecret, profile, next) => {
   try {
 

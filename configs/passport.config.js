@@ -22,7 +22,7 @@ passport.use(new TwitterStrategy({
   // includeEmail: true,
 }, async(token, tokenSecret, profile, next) => {
   try {
-
+    console.log("entra en try")
     const currentUser = await User.findOne( { provider_id: profile.id } )
        if (!currentUser){
         const newUser = await new User({

@@ -33,10 +33,11 @@ passport.use(new TwitterStrategy({
            photo: profile.photos[0].value,
            role: profile.username === 'elmoigarcia' ? 'admin' : 'guest'
          }).save()
-         
-        return await next(null, newUser)
+         console.log("entra en if")
+        next(null, newUser)
        } else {
-        return await next(null, currentUser)
+        console.log("entra en else")
+        next(null, currentUser)
        }
      } catch(error) {
        console.log("error ", error)

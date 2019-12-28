@@ -23,8 +23,9 @@ router.get("/login/success", (req, res) => {
       role: req.user.role,
       points: req.user.points
     };
-
-    req.session.save(() => res.status(200).json(user));
+    
+    // req.session.save(() => res.status(200).json(user));
+    res.status(200).json(user)
   }
 });
 

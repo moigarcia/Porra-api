@@ -19,7 +19,7 @@ passport.use(new TwitterStrategy({
   consumerKey: process.env.TWITTER_AUTH_CLIENT_ID,
   consumerSecret: process.env.TWITTER_AUTH_CLIENT_SECRET,
   callbackURL: process.env.TWITTER_AUTH_CALLBACK,
-  // includeEmail: true,
+  includeEmail: true,
 }, async(token, tokenSecret, profile, next) => {
   try {
     console.log("entra en try")
@@ -33,10 +33,9 @@ passport.use(new TwitterStrategy({
            photo: profile.photos[0].value,
            role: profile.username === 'elmoigarcia' ? 'admin' : 'guest'
          }).save()
-         console.log("entra en if")
+
         next(null, newUser)
        } else {
-        console.log("entra en else")
         next(null, currentUser)
        }
      } catch(error) {

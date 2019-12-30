@@ -7,10 +7,10 @@ router.get("/twitter", passport.authenticate("twitter"));
 router.get(
   "/twitter/redirect",
   passport.authenticate("twitter", {
-    successRedirect: process.env.URL_APP_DEV,
-    failureRedirect: "auth/login/failed"
+    successRedirect: process.env.URL_APP + '/twitter/success',
+    failureRedirect: process.env.URL_APP
   })
-);
+)
 
 router.get("/login/success", (req, res) => {
   if (req.user) {
@@ -23,8 +23,6 @@ router.get("/login/success", (req, res) => {
       role: req.user.role,
       points: req.user.points
     };
-    
-    // req.session.save(() => res.status(200).json(user));
     res.status(200).json(user)
   }
 });

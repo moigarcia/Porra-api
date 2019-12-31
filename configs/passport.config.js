@@ -34,11 +34,8 @@ passport.use(
               photo: profile.photos[0].value,
               role: profile.username === "elmoigarcia" ? "admin" : "guest"
             }).save();
-            setTimeout(() => {
               next(null, newUser);
               console.log("new user", newUser);
-              
-            }, 3000);
           } else {
             next(null, currentUser);
           }

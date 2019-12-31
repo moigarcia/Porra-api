@@ -25,6 +25,11 @@ router.get("/login/success", (req, res) => {
       points: req.user.points
     };
     res.status(200).json(user)
+  } else {
+    res.status(401).json({
+      success: false,
+      message: "user failed to authenticate."
+    });
   }
 });
 

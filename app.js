@@ -36,11 +36,11 @@ app.use(session({
   // proxy: true, 
   cookie: {
     secure: "auto",
-    maxAge: 60 * 60 * 24 * 1000
+    maxAge: 60 * 60 * 1000
   },
   store: new MongoStore({
     mongooseConnection: mongoose.connection,
-    ttl: 24 * 60 * 60
+    ttl: 60 * 60
   })
 }));
 

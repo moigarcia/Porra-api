@@ -13,6 +13,7 @@ router.get(
 )
 
 router.get("/login/success", (req, res) => {
+  console.log("succes login ", req.user)
   if (req.user) {
     const user = {
       id: req.user.id,

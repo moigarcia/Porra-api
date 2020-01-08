@@ -4,7 +4,7 @@ const secure = require("../middlewares/auth.middleware");
 const dayController = require("../controllers/day.controller");
 const betController = require("../controllers/bet.controller");
 
-router.get("/", secure.isAuthenticated, secure.checkRole('admin'), dayController.getAll);
+router.get("/", secure.isAuthenticated, dayController.getAll);
 router.get("/:id", secure.isAuthenticated, dayController.getById);
 
 router.post("/", secure.isAuthenticated, secure.checkRole('admin'), dayController.createDay);

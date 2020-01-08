@@ -27,7 +27,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser('SuperArgo'));
 app.use(express.static(path.join(__dirname, 'public')));
-app.enable('trust proxy'); 
+//app.enable('trust proxy'); 
 
 app.use(session({
   secret: 'SuperArgo',
@@ -56,8 +56,8 @@ app.use(
 );
 
 // view engine setup
-app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'ejs');
+// app.set('views', path.join(__dirname, 'views'));
+// app.set('view engine', 'ejs');
 
 
 app.use('/auth', sessionsRouter);

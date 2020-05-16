@@ -1,0 +1,25 @@
+version: '3'
+
+services:
+  ubati-products:
+    container_name: porra-api
+    restart: always
+    env_file: .env
+    build:
+      context: .
+      dockerfile: ./docker/containers/porra-api/Dockerfile
+      args:
+        - NODE_ENV=development
+    command: ./node_modules/.bin/nodemon --inspect=0.0.0.0:9229 app.js
+    ports:
+      - "3001:3001"
+    volumes:
+      - .:/opt/app
+      - /opt/app/node_modules
+    environment:
+      - NODE_ENV=local
+#     networks:
+#       - ubati-swg_app_net
+# networks:
+#   ubati-swg_app_net:
+#     external: true   

@@ -1,7 +1,7 @@
 version: '3'
 
 services:
-  ubati-products:
+  porra-api:
     container_name: porra-api
     restart: always
     env_file: .env

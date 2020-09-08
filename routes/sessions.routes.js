@@ -1,19 +1,18 @@
-const passport = require("passport");
-const express = require("express");
+const passport = require('passport');
+const express = require('express');
 const router = express.Router();
 
 router.get("/twitter", passport.authenticate("twitter"));
-
 router.get(
-  "/twitter/redirect",
-  passport.authenticate("twitter", {
-    successRedirect: process.env.URL_APP + '/twitter/success',
-    failureRedirect: process.env.URL_APP
+  '/twitter/redirect',
+  passport.authenticate('twitter', {
+    successRedirect: process.env.URL_APP_DEV + '/twitter/success',
+    failureRedirect: process.env.URL_APP_DEV
   })
-)
+);
 
-router.get("/login/success", (req, res) => {
-  console.log("succes login ", req.user)
+router.get('/login/success', (req, res, next) => {
+  console.log('succes login ', req.user);
   if (req.user) {
     const user = {
       id: req.user.id,
@@ -24,26 +23,26 @@ router.get("/login/success", (req, res) => {
       role: req.user.role,
       points: req.user.points
     };
-    res.status(200).json(user)
+    res.status(200).json(user);
   } else {
     res.status(401).json({
       success: false,
-      message: "user failed to authenticate."
+      message: 'user failed to authenticate.'
     });
   }
 });
 
-router.get("/login/failed", (req, res) => {
+router.get('/login/failed', (req, res) => {
   res.status(401).json({
     success: false,
-    message: "user failed to authenticate."
+    message: 'user failed to authenticate.'
   });
 });
 
-router.post("/logout", (req, res) => {
+router.post('/logout', (req, res) => {
   req.logout();
   res.status(200).json({
-    message: "user logout."
+    message: 'user logout.'
   });
 });
 module.exports = router;

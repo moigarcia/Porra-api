@@ -1,9 +1,9 @@
 const createError = require('http-errors');
 
 module.exports.isAuthenticated = (req, res, next) => {
-  console.log("auth ", req.user.userTwitter)
+  console.log("auth ", req.user)
   if (req.isAuthenticated()){
-    next();
+    return next();
   } else {
     next(createError(403, 'Not authenticated'));
   }
